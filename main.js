@@ -13,6 +13,11 @@ const world = {
     width: 1,
     height: 1,
     depth:1,
+  },
+  camera: {
+    positionX: 0,
+    positionY: 0,
+    positionZ: 0,
   }
 }
 
@@ -31,6 +36,17 @@ gui.add(world.cube,'depth', 0.1,8).onChange(() => {
   cube.geometry = new THREE.BoxGeometry(world.cube.width,world.cube.height,world.cube.depth)
 })
 
+gui.add(world.camera,'positionX', -500, 500).onChange(() => {
+  camera.position.x= world.camera.positionX
+})
+
+gui.add(world.camera,'positionY', -500, 500).onChange(() => {
+  camera.position.y= world.camera.positionY
+})
+
+gui.add(world.camera,'positionZ', -500, 500).onChange(() => {
+  camera.position.z= world.camera.positionZ
+})
 
 
 // ----------------- Scene -----------------
@@ -41,9 +57,9 @@ const scene = new THREE.Scene();
 // ---------------- Camera -----------------------
 
 const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight,0.1,1000)
-camera.position.x = -100
-camera.position.z = 405
-camera.position.y = 285
+camera.position.x = -101
+camera.position.z = -404
+camera.position.y = 72
 camera.lookAt(0,0,0)
 // ---------------- renderer ---------------------
 
@@ -86,9 +102,8 @@ loader.load( 'scene.gltf', ( gltf ) => {
 
   loadedModel = gltf
 
-  gltf.scene.position.z= -20
-  gltf.scene.position.y= -50
-  gltf.scene.position.x= 0
+  gltf.scene.rotation.x = 90
+  gltf.scene.rotation.z = 45
 
   console.log(gltf.scene)
 	scene.add( gltf.scene );
@@ -122,9 +137,6 @@ function animate () {
   requestAnimationFrame(animate)
   renderer.render(scene,camera)
 
-  if (loadedModel) {
-    loadedModel.scene.rotation.y += 0.01;
-  }
 
   // cube.rotation.z += 0.01
   // cube.rotation.y += 0.01
